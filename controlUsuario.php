@@ -27,7 +27,8 @@ if($_POST){
                         'senha' => $usuario['ds_senha'],
                         'bio' => $usuario['ds_bio_usuario'],
                         'cidade' => $usuario['ds_cidade'],
-                        'dt_nascimento' => $usuario['dt_nascimento']
+                        'dt_nascimento' => $usuario['dt_nascimento'],
+                        'admin' => $usuario['st_admin']
                     ));
                 }
             }else{
@@ -44,7 +45,8 @@ if($_POST){
                         'senha' => $usuario['ds_senha'],
                         'bio' => $usuario['ds_bio_usuario'],
                         'cidade' => $usuario['ds_cidade'],
-                        'dt_nascimento' => $usuario['dt_nascimento']
+                        'dt_nascimento' => $usuario['dt_nascimento'],
+                        'admin' => $usuario['st_admin']
                     );
                     $i++;
                 }

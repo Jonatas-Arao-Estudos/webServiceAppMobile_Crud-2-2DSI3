@@ -1,18 +1,6 @@
 CREATE DATABASE db_appcrud;
 USE db_appcrud;
 
-CREATE TABLE tb_admin(
-    cd_admin INT AUTO_INCREMENT,
-    nm_admin VARCHAR(55) NOT NULL,
-    ds_email VARCHAR(55) NOT NULL,
-    CONSTRAINT EMAIL_USER_UNICO UNIQUE (ds_email),
-    ds_senha VARCHAR(25) NOT NULL,
-    dt_cadastro TIMESTAMP NOT NULL
-    DEFAULT CURRENT_TIMESTAMP
-    ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY(cd_admin)
-);
-
 CREATE TABLE tb_usuario(
     cd_usuario INT AUTO_INCREMENT,
     nm_usuario VARCHAR(55) NOT NULL,
@@ -22,6 +10,7 @@ CREATE TABLE tb_usuario(
     ds_bio_usuario LONGTEXT,
     ds_cidade VARCHAR(25),
     dt_nascimento DATE,
+    st_admin CHAR(1) NOT NULL DEFAULT 'F',
     dt_cadastro TIMESTAMP NOT NULL
     DEFAULT CURRENT_TIMESTAMP
     ON UPDATE CURRENT_TIMESTAMP,
@@ -39,7 +28,7 @@ CREATE TABLE tb_amizade(
     FOREIGN KEY (id_amigo_solicitado) REFERENCES
     tb_usuario(cd_usuario),
     dt_confirmacao DATETIME,
-    ic_confirmacao CHAR(1) NOT NULL,
+    st_confirmacao CHAR(1) NOT NULL DEFAULT 'F',
     PRIMARY KEY(cd_amizade)
 );
 
