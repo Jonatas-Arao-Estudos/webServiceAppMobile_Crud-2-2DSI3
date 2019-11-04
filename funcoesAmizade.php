@@ -26,3 +26,13 @@ function ListarAmizade($cd){
 	$res = $GLOBALS['conecta']->query($sql);
 	return $res;
 }
+
+function VerificaAmizade($cd){
+	$sql = 'SELECT * FROM tb_amizade WHERE (id_amigo_solicitante = "'.$cd.'" OR id_amigo_solicitado = "'.$cd.'") AND st_confirmacao = "T"';
+    $res = $GLOBALS['conecta']->query($sql);
+    if(mysqli_num_rows($res) > 0){
+        return 1;
+    }else{
+        return 0;
+    }
+}
