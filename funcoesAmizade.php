@@ -22,7 +22,10 @@ function DesfazerAmizade($solicitante,$solicitado){
 }
 
 function ListarAmizade($cd){
-	$sql = 'SELECT * FROM tb_amizade WHERE (id_amigo_solicitante = "'.$cd.'" OR id_amigo_solicitado = "'.$cd.'") AND st_confirmacao = "T"';
+	$sql = 'SELECT US.cd_usuario FROM tb_usuario US, tb_amizade AM 
+    WHERE (AM.id_amigo_solicitante = "'.$cd.'" OR AM.id_amigo_solicitado = "'.$cd.'") 
+    AND (US.cd_usuario = AM.id_amigo_solicitante OR US.cd_usuario = AM.id_amigo_solicitado) 
+    AND AM.st_confirmacao = "T"';
 	$res = $GLOBALS['conecta']->query($sql);
 	return $res;
 }
