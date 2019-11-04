@@ -77,5 +77,30 @@ if($_POST){
                 echo 'Erro ao excluir';
             }
         break;
+
+        case 'login':
+            $email = $_POST['email'];
+            $senha = $_POST['senha'];
+            $login = LoginUsuario($email,$senha);
+            if($login == 1){
+                $consulta = ListarUsuarioEmail($email);
+                while($usuario = $consulta->fetch_array()){
+                    $registros = array(
+                    'usuario' => array(
+                        'codigo' => $usuario['cd_usuario'],
+                        'nome' => $usuario['nm_usuario'],
+                        'email' => $usuario['ds_email'],
+                        'admin' => $usuario['st_admin'],
+                        'logado' => $login
+                    ));
+                }
+            }else{
+                $registros = array(
+                    'usuario' => array(
+                        'logado' => $login
+                    ));
+            }
+            echo json_encode($registros);
+        break;
     }
 }
