@@ -22,20 +22,49 @@ function DesfazerAmizade($solicitante,$solicitado){
 }
 
 function ListarAmizade($cd){
-	$sql = 'SELECT US.cd_usuario FROM tb_usuario US, tb_amizade AM 
-    WHERE (AM.id_amigo_solicitante = "'.$cd.'" OR AM.id_amigo_solicitado = "'.$cd.'") 
-    AND (US.cd_usuario = AM.id_amigo_solicitante OR US.cd_usuario = AM.id_amigo_solicitado) 
-    AND AM.st_confirmacao = "T"';
+	$sql = 'SELECT US.cd_usuario, US.nm_usuario
+    FROM tb_usuario US, tb_amizade AM
+    WHERE AM.id_amigo_solicitante = "'.$cd.'" AND US.cd_usuario = AM.id_amigo_solicitado AND AM.st_confirmacao = "T" 
+    UNION 
+    SELECT US.cd_usuario, US.nm_usuario
+    FROM tb_usuario US, tb_amizade AM 
+    WHERE AM.id_amigo_solicitado = "'.$cd.'" AND US.cd_usuario = AM.id_amigo_solicitante AND AM.st_confirmacao = "T"';
 	$res = $GLOBALS['conecta']->query($sql);
 	return $res;
 }
 
-function VerificaAmizade($cd){
-	$sql = 'SELECT * FROM tb_amizade WHERE (id_amigo_solicitante = "'.$cd.'" OR id_amigo_solicitado = "'.$cd.'") AND st_confirmacao = "T"';
+function ListarPedidosAmizade($cd){
+	$sql = 'SELECT US.cd_usuario, US.nm_usuario 
+    FROM tb_usuario US, tb_amizade AM 
+    WHERE AM.id_amigo_solicitado = "'.$cd.'" AND US.cd_usuario = AM.id_amigo_solicitante AND AM.st_confirmacao = "F"';
+	$res = $GLOBALS['conecta']->query($sql);
+	return $res;
+}
+
+function ListarSolicitacaoAmizade($cd){
+	$sql = 'SELECT US.cd_usuario, US.nm_usuario 
+    FROM tb_usuario US, tb_amizade AM
+    WHERE AM.id_amigo_solicitante = "'.$cd.'" AND US.cd_usuario = AM.id_amigo_solicitado AND AM.st_confirmacao = "F" ';
+	$res = $GLOBALS['conecta']->query($sql);
+	return $res;
+}
+
+function VerificaAmizade($solicitante,$solicitado){
+	$sql = 'SELECT * FROM tb_amizade  WHERE id_amigo_solicitante = "'.$solicitante.'" AND id_amigo_solicitado = "'.$solicitado.'" AND st_confirmacao = "T"';
     $res = $GLOBALS['conecta']->query($sql);
     if(mysqli_num_rows($res) > 0){
-        return 1;
+        return true;
     }else{
-        return 0;
+        return false;
+    }
+}
+
+function VerificaSolicitacaoAmizade($solicitante,$solicitado){
+	$sql = 'SELECT * FROM tb_amizade  WHERE id_amigo_solicitante = "'.$solicitante.'" AND id_amigo_solicitado = "'.$solicitado.'" AND st_confirmacao = "F"';
+    $res = $GLOBALS['conecta']->query($sql);
+    if(mysqli_num_rows($res) > 0){
+        return true;
+    }else{
+        return false;
     }
 }
